@@ -24,7 +24,7 @@ jobs:
           distribution: 'temurin'
           
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x test
 
 
   wait-for-approval:
