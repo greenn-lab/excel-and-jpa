@@ -73,4 +73,4 @@ jobs:
         
       - name: Run new container
         run: |
-          docker run -d --name spring-app -p 8080:8989 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker run -d --name spring-app -p 8989:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
