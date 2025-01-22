@@ -17,20 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          
-      - name: Build with Gradle
-        run: ./gradlew build -x test
-
-
   wait-for-approval:
     needs: build
     runs-on: ubuntu-latest
-    environment: 'production'  # GitHub에서 environment를 생성하고 여기서 승인자를 지정합니다
+    environment: 'production'
     steps:
       - name: Waiting for approval
         run: echo "Approved by administrator"
