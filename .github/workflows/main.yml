@@ -49,3 +49,26 @@ jobs:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+  deploy:
+    needs: publish
+    runs-on: self-hosted && office-win11
+    steps:
+      - name: Login to GitHub Container Registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        
+      - name: Pull latest image
+        run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        
+      - name: Stop existing container
+        run: |
+          docker stop spring-app || true
+          docker rm spring-app || true
+        continue-on-error: true
+        
+      - name: Run new container
+        run: |
+          docker run -d \
+            --name spring-app \
+            -p 8080:8989 \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
